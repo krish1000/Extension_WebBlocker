@@ -33,70 +33,56 @@
 // }
 
 // whitelist();
-
+////////////////////////BLACK LIST
 function blockRequest(details) {
-  return { cancel: true };
+  return { cancel: true }; //enables cancel:true, when used in blacklistB, makes it always blacklist
 }
 
-// function updateFilters(urls) {
-//   if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest))
-//     chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
-//   chrome.webRequest.onBeforeRequest.addListener(
-//     blockRequest,
-//     { urls: ["*://*.facebook.com/*", "*://*.facebook.net/*"] },
-//     ["blocking"]
-//   );
-// }
-var arr = ["*://*.blank.com/*"];
-function updateFilters(urls) {
+//stores urls that get blacklisted
+var arr = [];
+
+function blacklistB(urls) {
   if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest))
     chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
   chrome.webRequest.onBeforeRequest.addListener(blockRequest, { urls: arr }, [
     "blocking",
   ]);
 
-  console.log("updatetings");
+  console.log("Filters have been enabled");
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(
-    sender.tab
-      ? "from a content script:" + sender.tab.url
-      : "from the extension"
-  );
-  if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
-
+  sendResponse({ reply: "sucess call to background.js" });
   arr.push(request.link1);
-  updateFilters();
+  blacklistB();
 });
 
-updateFilters();
+//////////////////////////////BLACK LIST^
 
-// chrome.webRequest.onBeforeSendHeaders.addListener(
-//   function (details) {
-//     //console.log(JSON.stringify(details));
-//     var headers = details.requestHeaders,
-//       blockingResponse = {};
+/** White listing doesn't properly work, as it disables script links as well*/
+// function whitelistB(urls) {
+//   chrome.webRequest.onBeforeRequest.addListener(
+//     function (details) {
+//       return {
+//         cancel:
+//           details.url.indexOf(".facebook.com") == -1 &&
+//           details.url.indexOf(".youtube.com") == -1,
+//       };
+//     },
+//     { urls: ["<all_urls>"] },
+//     ["blocking"]
+//   );
+// }
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//   //arr.push(request.link1);
+//   //blacklistAll();
+//   whitelistB();
+// });
 
-//     // Each header parameter is stored in an array. Since Chrome
-//     // makes no guarantee about the contents/order of this array,
-//     // you'll have to iterate through it to find for the
-//     // 'User-Agent' element
-//     for (var i = 0, l = headers.length; i < l; ++i) {
-//       if (headers[i].name == "User-Agent") {
-//         headers[i].value = ">>> Your new user agent string here <<<";
-//         console.log(headers[i].value);
-//         break;
-//       }
-//       // If you want to modify other headers, this is the place to
-//       // do it. Either remove the 'break;' statement and add in more
-//       // conditionals or use a 'switch' statement on 'headers[i].name'
-//     }
+console.log("background.js running");
 
-//     blockingResponse.requestHeaders = headers;
-//     return blockingResponse;
-//   },
-//   { urls: ["<all_urls>"] },
-//   ["requestHeaders", "blocking"]
+// console.log(
+//   sender.tab
+//     ? "from a content script:" + sender.tab.url
+//     : "from the extension"
 // );
-console.log("background runningsss");

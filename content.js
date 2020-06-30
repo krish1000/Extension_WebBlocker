@@ -13,19 +13,14 @@ function getUrl() {
   var urlString = document.getElementById("wlist").value;
   console.log(urlString);
   //document.getElementById("desc").innerHTML = "asdf";
-  whitelist(urlString);
+  blacklistC(urlString);
 }
 
-function whitelist(urlString) {
-  //arr.push("*://*.facebook.com/*");
-  chrome.runtime.sendMessage(
-    { greeting: "hello", link1: "*://*.facebook.com/*" },
-    function (response) {
-      console.log(response.farewell);
-    }
-  );
-
-  //updateFilters();
+function blacklistC(urlString) {
+  //arr.push("*://*.facebook.com/*"); won't work
+  chrome.runtime.sendMessage({ link1: urlString }, function (response) {
+    console.log(response.reply);
+  });
   console.log("whitelisted.");
-  document.getElementById("desc").innerHTML = "*://*.facebook.com/*";
+  document.getElementById("desc").innerHTML = "helllro";
 }
