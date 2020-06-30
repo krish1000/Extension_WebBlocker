@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width = device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Web Blocker Ext.</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <!--https://fonts.google.com/specimen/Open+Sans?sidebar.open&selection.family=Open+Sans-->
+
+    <!-- add bootstrapcdn for css style sheet-->
+    <!--https://developer.chrome.com/extensions/declare_permissions#host-permissions-->
+  </head>
+  <body>
+    <div class="model-header">
+      <!-- shortcut div.model-header creates it-->
+      <img src="icon200.png" alt="Image Icon" />
+      <p id="desc">
+        Testin123
+      </p>
+    </div>
+    <label for="wlist">WhiteList:</label>
+    <input type="text" id="wlist" name="wlist" />
+    <button id="submit">
+      Submit
+    </button>
+  </body>
+  <script src="background.js"></script>
+  <script src="content.js"></script>
+</html>
