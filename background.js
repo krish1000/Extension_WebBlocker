@@ -56,6 +56,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   sendResponse({ reply: "sucess call to background.js" });
   arr.push(request.link1);
   blacklistB();
+  if (chrome.runtime.lastError) {
+    arr.splice(arr.length - 1, 1); //1 means remove, and this removes last index that gave the error.
+    alert("Please input valid urls");
+  }
 });
 
 //////////////////////////////BLACK LIST^
