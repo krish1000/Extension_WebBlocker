@@ -1,2 +1,2 @@
 # Extension_WebBlocker
- Chrome Extension that whitelists certain websites
+ Chrome Extension that blocks/blacklists certain websites/domains
