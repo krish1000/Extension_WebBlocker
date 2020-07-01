@@ -42,8 +42,9 @@ function blockRequest(details) {
 var arr = [];
 
 function blacklistB(urls) {
-  if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest))
+  if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest)) {
     chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
+  }
   chrome.webRequest.onBeforeRequest.addListener(blockRequest, { urls: arr }, [
     "blocking",
   ]);
