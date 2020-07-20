@@ -42,6 +42,7 @@ function blockRequest(details) {
 var arr = [];
 
 function blacklistB(urls) {
+  //refresh listeners (apending to the array in the next instruction)
   if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest)) {
     chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
   }
@@ -49,18 +50,32 @@ function blacklistB(urls) {
     "blocking",
   ]);
 
-  console.log("Filters have been enabled");
+  //This is not catching error when user inputs malformed url.
+  // if (chrome.runtime.lastError) {
+  //   arr.splice(arr.length - 1, 1); //1 means remove, and this removes last index that gave the error.
+  //   console.log("caught error");
+  //   alert("Please input valid urls");
+  // } else {
+  //   console.log("no errors");
+  // }
+
+  console.log("blacklistB called.");
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   sendResponse({ reply: "sucess call to background.js" });
   arr.push(request.link1);
-  blacklistB();
-  if (chrome.runtime.lastError) {
-    arr.splice(arr.length - 1, 1); //1 means remove, and this removes last index that gave the error.
-    alert("Please input valid urls");
-  }
+  blacklistB(); //calls method to block the url
 });
+
+//Unfortunately this listener isn't catching the errors for when user inputs a malformed url.
+// chrome.webRequest.onErrorOccurred.addListener(
+//   function (callback) {
+//     arr.splice(arr.length - 1, 1); //1 means remove, and this removes last index that gave the error.
+//     console.log("caught error");
+//   },
+//   { urls: ["<all_urls>"] }
+// );
 
 //////////////////////////////BLACK LIST^
 
